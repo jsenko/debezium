@@ -23,7 +23,6 @@ import io.debezium.testing.system.tools.WaitConditions;
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder;
 import io.fabric8.kubernetes.api.model.ObjectReferenceBuilder;
 import io.fabric8.openshift.api.model.ClusterRoleBindingBuilder;
-import io.fabric8.openshift.api.model.Project;
 import io.fabric8.openshift.api.model.ProjectBuilder;
 import io.fabric8.openshift.client.OpenShiftClient;
 
@@ -53,20 +52,21 @@ public class NamespacePreparationListener implements TestExecutionListener {
     }
 
     public void testPlanExecutionFinished(TestPlan testPlan) {
+        System.err.println(">>>>>>>>>> io.debezium.testing.system.listeners.NamespacePreparationListener.testPlanExecutionFinished");
         // execute only after integration tests
-        if (ConfigProperties.OCP_PROJECT_DBZ != null && ConfigProperties.PREPARE_NAMESPACES_AND_STRIMZI) {
-            LOGGER.info("Cleaning namespaces");
-
-            // delete projects if project names are set
-            projectNames.forEach(name -> {
-                Project project = client.projects().withName(name).get();
-                if (project != null) {
-                    client.projects().delete(project);
-                }
-            });
-
-            client.close();
-        }
+        // if (ConfigProperties.OCP_PROJECT_DBZ != null && ConfigProperties.PREPARE_NAMESPACES_AND_STRIMZI) {
+        // LOGGER.info("Cleaning namespaces");
+        //
+        // // delete projects if project names are set
+        // projectNames.forEach(name -> {
+        // Project project = client.projects().withName(name).get();
+        // if (project != null) {
+        // client.projects().delete(project);
+        // }
+        // });
+        //
+        // client.close();
+        // }
     }
 
     private void prepareNamespaces() {

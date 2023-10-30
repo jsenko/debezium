@@ -69,7 +69,8 @@ public class WaitConditions {
     }
 
     public static long scaled(long amount) {
-        long scaled = ConfigProperties.WAIT_SCALE_FACTOR * amount;
+        // long scaled = ConfigProperties.WAIT_SCALE_FACTOR * amount;
+        long scaled = 1000_000 * amount;
         LOGGER.debug("Waiting amount: " + scaled);
         return scaled;
     }

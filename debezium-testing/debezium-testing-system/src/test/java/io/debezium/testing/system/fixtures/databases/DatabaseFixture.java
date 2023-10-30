@@ -33,8 +33,9 @@ public abstract class DatabaseFixture<T extends DatabaseController<?>> extends T
 
     @Override
     public void teardown() throws Exception {
-        if (dbController != null) {
-            dbController.reload();
-        }
+        System.err.println(">>>>>>>>>> io.debezium.testing.system.fixtures.databases.DatabaseFixture.teardown");
+        // if (dbController != null) {
+        // dbController.reload();
+        // }
     }
 }

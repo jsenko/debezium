@@ -58,8 +58,9 @@ public abstract class ConnectorFixture<T extends DatabaseController<?>> extends 
 
     @Override
     public void teardown() throws IOException {
-        if (connectorConfig != null) {
-            connectController.undeployConnector(connectorConfig.getConnectorName());
-        }
+        System.err.println(">>>>>>>>>> io.debezium.testing.system.fixtures.connectors.ConnectorFixture.teardown");
+        // if (connectorConfig != null) {
+        // connectController.undeployConnector(connectorConfig.getConnectorName());
+        // }
     }
 }
