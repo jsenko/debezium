@@ -35,6 +35,8 @@ public abstract class MySqlOcpTests extends MySqlTests {
     @Order(100)
     public void shouldStreamFromReplica(MySqlReplicaController replicaController, MySqlController masterController)
             throws InterruptedException, IOException, SQLException {
+        System.out.println("BEFORE shouldStreamFromReplica in " + getClass().getCanonicalName());
+
         await()
                 .atMost(scaled(5), TimeUnit.MINUTES)
                 .pollInterval(Duration.ofSeconds(20))
@@ -48,12 +50,16 @@ public abstract class MySqlOcpTests extends MySqlTests {
         String topic = connectorConfig.getDbServerName() + ".inventory.customers";
         awaitAssert(() -> assertions.assertRecordsCount(topic, 8));
         awaitAssert(() -> assertions.assertRecordsContain(topic, "atest@test.com"));
+
+        System.out.println("AFTER shouldStreamFromReplica in " + getClass().getCanonicalName());
     }
 
     @Test
     @Order(110)
     public void shouldStreamAfterMasterRestart(MySqlReplicaController replicaController, MySqlController masterController)
             throws SQLException, IOException, InterruptedException {
+        System.out.println("BEFORE shouldStreamAfterMasterRestart in " + getClass().getCanonicalName());
+
         connectorConfig.put("database.hostname", masterController.getDatabaseHostname());
         connectController.deployConnector(connectorConfig);
 
@@ -78,5 +84,7 @@ public abstract class MySqlOcpTests extends MySqlTests {
 
         awaitAssert(() -> assertions.assertRecordsCount(topic, 10));
         awaitAssert(() -> assertions.assertRecordsContain(topic, "ttrain@test.com"));
+
+        System.out.println("AFTER shouldStreamAfterMasterRestart in " + getClass().getCanonicalName());
     }
 }
