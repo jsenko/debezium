@@ -5,6 +5,7 @@
  */
 package io.debezium.testing.system.tests.mysql;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -25,6 +26,13 @@ import io.debezium.testing.system.tools.kafka.KafkaController;
 
 import fixture5.FixtureExtension;
 import fixture5.annotations.Fixture;
+
+import java.time.Duration;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static io.debezium.testing.system.tools.WaitConditions.scaled;
+import static org.awaitility.Awaitility.await;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Tag("mysql")
@@ -47,5 +55,12 @@ public class OcpAvroMySqlConnectorIT extends MySqlTests {
                                    ConnectorConfigBuilder connectorConfig,
                                    KafkaAssertions<?, ?> assertions) {
         super(kafkaController, connectController, connectorConfig, assertions);
+    }
+
+    @AfterAll
+    public static void waiting() {
+        System.out.println("WAITING AFTER ALL in " + OcpAvroMySqlConnectorIT.class.getCanonicalName());
+
+        await().forever().until(() -> false);
     }
 }
